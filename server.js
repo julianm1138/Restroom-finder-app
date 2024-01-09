@@ -7,23 +7,24 @@ const connectionString = // Need to create MongoDB connectionString for our own 
     MongoClient.connect(connectionString)
         .then(client => {
             console.log('Connected to Database')
-            const db = client.db('star-wars-quotes')
-            const quotesCollection = db.collection('quotes')
+            const db = client.db('star-wars-quotes') // Need to replace 'star-wars-quotes' with new MongoDB info
+            const quotesCollection = db.collection('quotes') // Need to replace quotesCollection and 'quotes' with new MongoDB info
 
             app.set('view engine', 'ejs')
 
             app.use(bodyParser.urlencoded({ extended: true }))
             app.use(express.static('public'))
-            app.use(bodyParser.json())
+            app.use(bodyParser.json()) // Is this deprecated?
 
             app.get('/', (req, res) => {
-                quotesCollection.find().toArray()
+                quotesCollection.find().toArray() // Need to replace quotesCollection with new MongoDB info
                     .then(results => {
-                        res.render('index.ejs', { quotes: results })
+                        res.render('index.ejs', { quotes: results }) // Need to replace { quotes: results } with new MongoDB info
                     })
                     .catch(error => console.error(error))
             })
 
+            // Replace '/quotes' in below routes with new info
             app.post('/quotes', (req, res) => {
                 quotesCollection.insertOne(req.body)
                     .then(result => {
@@ -32,7 +33,9 @@ const connectionString = // Need to create MongoDB connectionString for our own 
                     .catch(error => console.log(error))
             })
 
+            // Replace '/quotes' in below routes with new info
             app.put('/quotes', (req, res) => {
+                // Need to replace below with updated findOneAndUpdate info, as well as quotesCollection with new MongoDB Info
                 quotesCollection.findOneAndUpdate(
                     { name: 'Yoda' },
                     {
@@ -51,6 +54,7 @@ const connectionString = // Need to create MongoDB connectionString for our own 
                     .catch(error => console.error(error))
             })
 
+            // Replace '/quotes' in below routes with new info
             app.delete('/quotes', (req, res) => {
                 quotesCollection.deleteOne(
                     { name: req.body.name }
