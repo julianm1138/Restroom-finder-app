@@ -2,15 +2,20 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Star Wars Quote App</title>
+    <title>Public Restroom Finder</title>
   </head>
 
   <body>
-    <h1>May Node and Express be with you.</h1>
+    <h1>Add A Public Restroom</h1>
 
-    <form action="/quotes" method="POST">
+    <form action="/restrooms" method="POST">
       <input type="text" placeholder="name" name="name" />
-      <input type="text" placeholder="quote" name="quote" />
+      <input type="text" placeholder="address" name="address" />
+      <input type="text" placeholder="city" name="city" />
+      <input type="text" placeholder="state" name="state" />
+      <input type="text" placeholder="zip code" name="zip_code" />
+      <input type="text" placeholder="opens" name="open_hours" />
+      <input type="text" placeholder="closes" name="closed_hours" />
       <button type="submit">Submit</button>
     </form>
   </body>

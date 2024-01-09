@@ -2,13 +2,13 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
 const MongoClient = require('mongodb').MongoClient
-const connectionString = 'mongodb+srv://Jazzy:ghdC3wcerw260SLa@cluster0.jkqdlcg.mongodb.net/?retryWrites=true&w=majority'
+const connectionString = ''
 
 MongoClient.connect(connectionString)
   .then(client => {
     console.log('Connected to Database')
-    const db = client.db('star-wars-quotes')
-    const quotesCollection = db.collection('quotes')
+    const db = client.db('restroom_locations')
+    const restroomsCollection = db.collection('restrooms')
 
     app.set('view engine', 'ejs')
 
@@ -17,28 +17,28 @@ MongoClient.connect(connectionString)
     app.use(bodyParser.json())
 
     app.get('/', (req, res) => {
-        quotesCollection.find().toArray()
+        restroomsCollection.find().toArray()
             .then(results => {
-                res.render('index.ejs',{quotes: results})
+                res.render('index.ejs',{restrooms: results})
             })
             .catch(error => console.error(error))   
     })
 
-    app.post('/quotes', (req, res) => {
-        quotesCollection.insertOne(req.body)
+    app.post('/restrooms', (req, res) => {
+        restroomsCollection.insertOne(req.body)
             .then(result => {
                 res.redirect('/')
             })
             .catch(error => console.log(error))
     })
 
-    app.put('/quotes', (req,res) => {
-        quotesCollection.findOneAndUpdate(
+    app.put('/restrooms', (req,res) => {
+        restroomsCollection.findOneAndUpdate(
             {name: 'Yoda'},
             {
                 $set: {
                     name: req.body.name,
-                    quote: req.body.quote
+                    restroom: req.body.restroom
               }
             },
             {
@@ -51,15 +51,15 @@ MongoClient.connect(connectionString)
         .catch(error => console.error(error))
     })
 
-    app.delete('/quotes', (req, res) => {
-        quotesCollection.deleteOne(
+    app.delete('/restrooms', (req, res) => {
+        restroomsCollection.deleteOne(
           {name: req.body.name}  
         )
         .then(result => {
             if (result.deletedCount === 0) {
-                return res.json('No quote to delete')
+                return res.json('No restroom to delete')
             }
-            res.json(`Deleted Darth Vader's Quote`)
+            res.json(`Deleted Restroom`)
         })
         .catch(error => console.error(error))
     })
