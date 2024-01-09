@@ -2,7 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
 const MongoClient = require('mongodb').MongoClient
-const connectionString = ''
+const connectionString = '' //add to env after adding user permissions
 
 MongoClient.connect(connectionString)
   .then(client => {
@@ -24,6 +24,7 @@ MongoClient.connect(connectionString)
             .catch(error => console.error(error))   
     })
 
+    //add restroom
     app.post('/restrooms', (req, res) => {
         restroomsCollection.insertOne(req.body)
             .then(result => {
@@ -32,25 +33,38 @@ MongoClient.connect(connectionString)
             .catch(error => console.log(error))
     })
 
-    app.put('/restrooms', (req,res) => {
-        restroomsCollection.findOneAndUpdate(
-            {name: 'Yoda'},
+    /*
+    //update exisiting document. Not sure this is necessary for now
+    
+    app.put('/restrooms', (req, res) => {
+       
+        quotesCollection.findOneAndUpdate(
+            { name: '' },
             {
                 $set: {
                     name: req.body.name,
-                    restroom: req.body.restroom
-              }
+                    address: req.body.address,
+                    city: req.body.city,
+                    state: req.body.state,
+                    zip_code: req.body.zip_code,
+                    opens: req.body.open_hours,
+                    closes: req.body.closed_hours
+                }
             },
             {
                 upsert: true
             }
         )
-        .then(result => {
-            res.json('Success') 
-        })
-        .catch(error => console.error(error))
+            .then(result => {
+                res.json('Success')
+            })
+            .catch(error => console.error(error))
     })
+    */
 
+
+
+    //delete restroom
     app.delete('/restrooms', (req, res) => {
         restroomsCollection.deleteOne(
           {name: req.body.name}  
