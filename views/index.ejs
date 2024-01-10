@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Restroom Finder App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+
+<body>
+    <h1 data-position="header">Find A Restroom Nearby</h1>
+
+
+
+        <h1>Find the nearest restroom to you!</h1>
+    
+        <form action="/find" method="POST">
+        <input type="text" placeholder="City Name" name="city" />
+        <input type="text" placeholder="2 Letter State" name="state" />
+        <input type="text" placeholder="5 Digit Zip Code" name="zip" />
+        <input type="text" placeholder="Country Code eg:KR" name="country" />
+
+        <button type="submit">Submit</button>
+      </form>
+
+    <ul>
+      <% if (toilets && toilets.length > 0) { %>
+        <% toilets.forEach(function(toilet) { %>
+          <li id="<%= toilet._id %>">
+              <h3><%= toilet.BrandName %></h3>
+              <p>
+                <span class="fa fa-thumbs-up"><%= toilet.Upvotes %> </span>
+                <span class="fa fa-thumbs-down"><%= toilet.Downvotes %></span>
+              </p>
+              <p><%= toilet.Street1 %></p>
+              <p><%= toilet.City %>, <%= toilet.State %> <%= toilet.PostalCode %></p>
+              <p><%= toilet.PhoneNumber %></p>  
+          </li>
+      <% }) %>
+    <% } %>
+    </ul>
+
+    <script src="/main.js"></script>
+  </body>
+</html>
