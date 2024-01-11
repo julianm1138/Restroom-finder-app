@@ -21,16 +21,16 @@ app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
-    //main page
+//main page
 app.get('/', (req, res) => {
     db.collection('restrooms').find().toArray()
-    .then(result => {
-        res.render('index.ejs', {toilets: []}) 
-    })
-    .catch(error => console.error(error))
+        .then(result => {
+            res.render('index.ejs', { toilets: [] })
+        })
+        .catch(error => console.error(error))
 })
 
-    //find a restroom
+//find a restroom
 app.post('/find', (req, res) => {
     let search = {};
 
@@ -63,67 +63,67 @@ app.post('/find', (req, res) => {
                     Downvotes: item.Downvotes
                 };
             });
-            res.render('index.ejs',{toilets: foundRestrooms})
+            res.render('index.ejs', { toilets: foundRestrooms })
         })
-        .catch(error => console.error(error))   
+        .catch(error => console.error(error))
 })
 
 
-    //upvote restroom
+//upvote restroom
 
 app.put('/voteUp', (req, res) => {
     console.log("Received request body:", req.body);
-    db.collection('restrooms').findOneAndUpdate({ _id: (req.body._id).trim()},{
+    db.collection('restrooms').findOneAndUpdate({ _id: (req.body._id).trim() }, {
         $inc: { Upvotes: 1 }
-    },{
+    }, {
         upsert: false
     })
-    .then(result => {
-        console.log('Update result:', result)
-        if (result.matchedCount === 0) {
-            console.log('No matching document found');
-        }
-        if (result.modifiedCount === 0) {
-            console.log('No document was modified');
-        }
-        res.json('Restroom Upvoted!')
-    })
-    .catch(error => {
-        console.error(error);
-        res.status(500).json({ error: 'An error occurred' });
-    });
+        .then(result => {
+            console.log('Update result:', result)
+            if (result.matchedCount === 0) {
+                console.log('No matching document found');
+            }
+            if (result.modifiedCount === 0) {
+                console.log('No document was modified');
+            }
+            res.json('Restroom Upvoted!')
+        })
+        .catch(error => {
+            console.error(error);
+            res.status(500).json({ error: 'An error occurred' });
+        });
 })
 
 
-    //downvote restroom
+//downvote restroom
 app.put('/voteDown', (req, res) => {
-    db.collection('restrooms').updateOne({ _id: new ObjectId(req.body._id) },{
+    db.collection('restrooms').updateOne({ _id: new ObjectId(req.body._id) }, {
         $inc: { Downvotes: 1 }
-    },{
+    }, {
         upsert: false
     })
-    .then(result => {
-        console.log('Restroom Downvoted!')
-        res.json('Restroom Downvoted!')
-    })
-    .catch(error => console.error(error))  
+        .then(result => {
+            console.log('Restroom Downvoted!')
+            res.json('Restroom Downvoted!')
+        })
+        .catch(error => console.error(error))
 })
-    
 
-    //delete restroom
+
+//delete restroom
 app.delete('/restrooms', (req, res) => {
     db.collection('restrooms').deleteOne(
-      { name: req.body.name }  
+        { name: req.body.name }
     )
-    .then(result => {
-        if (result.deletedCount === 0) {
-            return res.json('No restroom to delete')
-        }
-        res.json(`Deleted Restroom`)
-    })
-    .catch(error => console.error(error))
+        .then(result => {
+            if (result.deletedCount === 0) {
+                return res.json('No restroom to delete')
+            }
+            res.json(`Deleted Restroom`)
+        })
+        .catch(error => console.error(error))
 })
 
-app.listen(process.env.PORT || PORT, ()=>{
+app.listen(process.env.PORT || PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
