@@ -1,4 +1,4 @@
-This is a restroom finder app that uses an API + large database holding every Starbucks location in every country. The input search parameters are city, state, zip code and country code. (You can use one or several search parameters). This app was built to increase accessibility to nearby restrooms when it is difficult to locate one in situations such as during crowded events or places, or when an accessible restroom may be further away than usual. 
+This is a restroom finder app that uses MVC architecture and a large database holding every Starbucks location in every country. The input search parameters are city, state, zip code and country code. (You can use one or several search parameters). This app was built to increase accessibility to nearby restrooms when it is difficult to locate one in situations such as during crowded events or places, or when an accessible restroom may be further away than usual. 
 
 This is an open source project and contributions are welcome!
 
